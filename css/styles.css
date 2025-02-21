@@ -1,0 +1,29 @@
+ /* Стилі галереї */
+ .gallery {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+  }
+  .gallery-item {
+    width: calc(33.333% - 10px);
+  }
+  .gallery-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    cursor: pointer;
+  }
+  @media (max-width: 768px) {
+    .gallery-item {
+      width: calc(50% - 10px);
+    }
+  }
+  @media (max-width: 480px) {
+    .gallery-item {
+      width: 100%;
+    }
+  }
