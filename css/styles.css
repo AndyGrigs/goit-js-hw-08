@@ -1,0 +1,105 @@
+  /* ====== ГАЛЕРЕЯ ====== */
+  .gallery {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+  }
+  .gallery-item {
+    width: calc(33.333% - 10px);
+  }
+  .gallery-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    cursor: pointer;
+  }
+  @media (max-width: 768px) {
+    .gallery-item {
+      width: calc(50% - 10px);
+    }
+  }
+  @media (max-width: 480px) {
+    .gallery-item {
+      width: 100%;
+    }
+  }
+
+  /* ====== СТИЛІ МОДАЛЬНОГО ВІКНА (basicLightbox) ====== */
+  /* 1) Перевизначаємо фон (замість темного робимо білий напівпрозорий) */
+  .basicLightbox--visible {
+    background: rgba(255, 255, 255, 0.8) !important;
+  }
+
+  /* 2) Контейнер усередині модалки (містить зображення і підпис) */
+  .modal-content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 90vw;
+    max-height: 90vh;
+    margin: 0 auto;
+  }
+
+  /* Зображення */
+  .modal-image {
+    display: block;
+    max-width: 100%;
+    max-height: 80vh;
+    object-fit: contain;
+    margin-bottom: 10px;
+  }
+
+  /* Підпис під зображенням */
+  .modal-caption {
+    text-align: center;
+    font-size: 16px;
+    color: #000; /* темний текст */
+    margin-bottom: 10px;
+  }
+
+  /* Індикатор (наприклад "2/9") у лівому верхньому куті (також можна fixed) */
+  .modal-index {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    font-size: 16px;
+    color: #000; /* темний текст */
+  }
+
+  /* Кнопка закриття (хрестик) у правому верхньому куті */
+  .modal-close {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: transparent;
+    border: none;
+    font-size: 30px;
+    color: #000;
+    cursor: pointer;
+    outline: none;
+  }
+
+  /* Стрілки (вперед/назад), щоб вони були по центру, але ближче до країв екрану */
+  .modal-prev,
+  .modal-next {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    font-size: 40px;
+    color: #000;
+    cursor: pointer;
+    outline: none;
+  }
+  .modal-prev {
+    left: 30px;
+  }
+  .modal-next {
+    right: 30px;
+  }
