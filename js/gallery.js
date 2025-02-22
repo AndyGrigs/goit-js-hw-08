@@ -66,7 +66,8 @@ const images = [
 
 const galleryContainer = document.querySelector('.gallery');
 
-const galleryHtml = images.map(({preview, original, description}) => {
+const galleryHtml = images
+  .map(({ preview, original, description }) => {
     return `
         <li class="gallery-item">
             <a class="gallery-link" href="${original}">
@@ -78,17 +79,61 @@ const galleryHtml = images.map(({preview, original, description}) => {
                 />
             </a>
         </li>
-    `
-}).join('');
+    `;
+  })
+  .join('');
 
 galleryContainer.innerHTML = galleryHtml;
 
-galleryContainer.addEventListener('click', e => {
-    e.preventDefault();
-    if(e.target.classList.contains('gallery-image')) {
-        const instance = basicLightbox.create(`
-            <img src="${e.target.dataset.source}" width="800" height="600">
-        `);
-        instance.show();
-    }
-})
+galleryContainer.addEventListener('click', (e) => {
+  e.preventDefault();
+  if (e.target.nodeName !== 'IMG') return;
+
+  let currentIndex = images.findIndex(
+    (img) => img.original === e.target.dataset.source
+  );
+
+  
+
+  const modalHTML = `
+        <div class="modal-content">
+          <img class="modal-image" src="${images[currentIndex].original}" alt="${images[currentIndex].description}" />
+          <div class="modal-caption"></div>
+        </div>
+
+        <button class="modal-close">&times;</button>
+        <div class="modal-index"></div>
+        <button class="modal-prev">&#10094;</button>
+        <button class="modal-next">&#10095;</button>
+      `;
+
+  const instance = basicLightbox.create(modalHTML, { closable: false });
+  instance.show();
+
+  const modalElement = instance.element();
+  const modalImage = modalElement.querySelector('.modal-image');
+  const captionEl = modalElement.querySelector('.modal-caption');
+  const modalIndex = modalElement.querySelector('.modal-index');
+  const closeBtn = modalElement.querySelector('.modal-close');
+  const prevBtn = modalElement.querySelector('.modal-prev');
+  const nextBtn = modalElement.querySelector('.modal-next');
+
+  function updateModal() {
+    modalImage.src = images[currentIndex].original;
+    modalImage.alt = images[currentIndex].description;
+    captionEl.textContent = images[currentIndex].description;
+    modalIndex.textContent = `${currentIndex + 1}/${images.length}`;
+  }
+  updateModal();
+  closeBtn.addEventListener('click', ()=> instance.close());
+
+  prevBtn.addEventListener('click', ()=>{
+    currentIndex = (currentIndex - 1 + images.length) % images.length;
+    updateModal();
+  });
+
+  nextBtn.addEventListener('click', () => {
+    currentIndex = (currentIndex + 1) % images.length;
+    updateModal();
+  });
+});
