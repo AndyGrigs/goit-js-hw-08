@@ -118,67 +118,32 @@ galleryContainer.addEventListener('click', (e) => {
   const nextBtn = modalElement.querySelector('.modal-next');
 
 
-  // function updateModal(direction) {
-  //   const exitClass = direction === 'next' ? 'slide-out-left' : 'slide-out-right';
-  //   const enterClass = direction === 'next' ? 'slide-in-right' : 'slide-in-left';
-  
-  //   modalImage.classList.add(exitClass);
-  
-  //   setTimeout(() => {
-  //     modalImage.src = images[currentIndex].original;
-  //     modalImage.alt = images[currentIndex].description;
-  //     captionEl.textContent = images[currentIndex].description;
-  //     modalIndex.textContent = `${currentIndex + 1}/${images.length}`;
-  
-  //     modalImage.classList.remove(exitClass);
-  //     modalImage.classList.add(enterClass);
-  //   }, 500);
-  
-  //   setTimeout(() => {
-  //     modalImage.classList.remove(enterClass);
-  //   }, 1000);
-  // }
 
   function updateModal(direction) {
     const exitClass = direction === 'next' ? 'slide-out-left' : 'slide-out-right';
     const enterClass = direction === 'next' ? 'slide-in-right' : 'slide-in-left';
   
-    // Додаємо клас для виходу старого зображення
     modalImage.classList.add(exitClass);
   
     setTimeout(() => {
-      // Приховуємо зображення перед зміною src
       modalImage.style.visibility = "hidden";
   
-      // Оновлюємо зображення після закінчення вихідної анімації
       modalImage.src = images[currentIndex].original;
       modalImage.alt = images[currentIndex].description;
       captionEl.textContent = images[currentIndex].description;
       modalIndex.textContent = `${currentIndex + 1}/${images.length}`;
   
-      // Видаляємо клас виходу та додаємо клас входу
       modalImage.classList.remove(exitClass);
       modalImage.classList.add(enterClass);
   
-      // Робимо зображення видимим після оновлення src
       modalImage.style.visibility = "visible";
-    }, 400); // Таймер трохи менший за анімацію
+    }, 400); 
   
     setTimeout(() => {
       modalImage.classList.remove(enterClass);
-    }, 800); // Видаляємо клас входу після завершення анімації
+    }, 800);
   }
   
-  // Оновлення обробників подій для кнопок
-  prevBtn.addEventListener('click', () => {
-    currentIndex = (currentIndex - 1 + images.length) % images.length;
-    updateModal('prev');
-  });
-  
-  nextBtn.addEventListener('click', () => {
-    currentIndex = (currentIndex + 1) % images.length;
-    updateModal('next');
-  });
   
 
   closeBtn.addEventListener('click', ()=> instance.close());
