@@ -1,105 +1,170 @@
-  /* ====== ГАЛЕРЕЯ ====== */
-  .gallery {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    justify-content: center;
-  }
+/* ====== ГАЛЕРЕЯ ====== */
+.gallery {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+.gallery-item {
+  width: calc(33.333% - 10px);
+}
+.gallery-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  cursor: pointer;
+}
+@media (max-width: 768px) {
   .gallery-item {
-    width: calc(33.333% - 10px);
+    width: calc(50% - 10px);
   }
-  .gallery-image {
-    display: block;
+}
+@media (max-width: 480px) {
+  .gallery-item {
     width: 100%;
-    height: auto;
-    cursor: pointer;
   }
-  @media (max-width: 768px) {
-    .gallery-item {
-      width: calc(50% - 10px);
-    }
-  }
-  @media (max-width: 480px) {
-    .gallery-item {
-      width: 100%;
-    }
-  }
+}
 
-  /* ====== СТИЛІ МОДАЛЬНОГО ВІКНА (basicLightbox) ====== */
-  /* 1) Перевизначаємо фон (замість темного робимо білий напівпрозорий) */
-  .basicLightbox--visible {
-    background: rgba(255, 255, 255, 0.8) !important;
-  }
+.basicLightbox--visible {
+  background: rgba(255, 255, 255, 0.8) !important;
 
-  /* 2) Контейнер усередині модалки (містить зображення і підпис) */
-  .modal-content {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    max-width: 90vw;
-    max-height: 90vh;
-    margin: 0 auto;
-  }
+}
 
-  /* Зображення */
-  .modal-image {
-    display: block;
-    max-width: 100%;
-    max-height: 80vh;
-    object-fit: contain;
-    margin-bottom: 10px;
-  }
+.modal-content {
+  position: relative;
+  width: 80vw;
+  max-height: 90vh;
+  margin: 0 auto;
+  padding: 80px;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
-  /* Підпис під зображенням */
-  .modal-caption {
-    text-align: center;
-    font-size: 16px;
-    color: #000; /* темний текст */
-    margin-bottom: 10px;
-  }
+}
 
-  /* Індикатор (наприклад "2/9") у лівому верхньому куті (також можна fixed) */
-  .modal-index {
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    font-size: 16px;
-    color: #000; /* темний текст */
-  }
+.modal-image {
+  display: block;
+  max-width: 100%;
+  max-height: 70vh;
+  object-fit: contain;
+  margin-bottom: 10px;
 
-  /* Кнопка закриття (хрестик) у правому верхньому куті */
-  .modal-close {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background: transparent;
-    border: none;
-    font-size: 30px;
-    color: #000;
-    cursor: pointer;
-    outline: none;
-  }
+}
 
-  /* Стрілки (вперед/назад), щоб вони були по центру, але ближче до країв екрану */
-  .modal-prev,
-  .modal-next {
-    position: fixed;
-    top: 50%;
-    transform: translateY(-50%);
-    background: transparent;
-    border: none;
-    font-size: 40px;
-    color: #000;
-    cursor: pointer;
-    outline: none;
+.modal-caption {
+  font-size: 16px;
+  color: #000;
+  margin-bottom: 10px;
+}
+
+.modal-index {
+  position: absolute;
+  top: 10px;
+  left: 15px;
+  font-size: 16px;
+  color: #000;
+}
+
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  color: #000;
+  cursor: pointer;
+  outline: none;
+}
+
+.modal-prev,
+.modal-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  font-size: 30px;
+  color: #000;
+  cursor: pointer;
+  outline: none;
+}
+.modal-prev {
+  left: 15px;
+}
+.modal-next {
+  right: 15px;
+}
+
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
   }
-  .modal-prev {
-    left: 30px;
+  to {
+    opacity: 1;
+    transform: translateX(0);
   }
-  .modal-next {
-    right: 30px;
+}
+
+@keyframes slide-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-100%);
   }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-out-right {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+}
+
+@keyframes slide-out-left {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+}
+
+.modal-image {
+  display: block;
+  max-width: 100%;
+  max-height: 70vh;
+  object-fit: contain;
+  margin-bottom: 10px;
+}
+
+.modal-image.slide-in-right {
+  animation: slide-in-right 0.5s ease-in-out;
+}
+
+.modal-image.slide-in-left {
+  animation: slide-in-left 0.5s ease-in-out;
+}
+
+.modal-image.slide-out-right {
+  animation: slide-out-right 0.5s ease-in-out;
+}
+
+.modal-image.slide-out-left {
+  animation: slide-out-left 0.5s ease-in-out;
+}
+

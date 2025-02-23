@@ -93,18 +93,17 @@ galleryContainer.addEventListener('click', (e) => {
     (img) => img.original === e.target.dataset.source
   );
 
-  
+
 
   const modalHTML = `
         <div class="modal-content">
-          <img class="modal-image" src="${images[currentIndex].original}" alt="${images[currentIndex].description}" />
+          <div class="modal-index"></div>
+          <button class="modal-close">&times;</button>
+          <img class="modal-image fade-in" src="${images[currentIndex].original}" alt="${images[currentIndex].description}" />
+          <button class="modal-prev">&#10094;</button>
+          <button class="modal-next">&#10095;</button>
           <div class="modal-caption"></div>
         </div>
-
-        <button class="modal-close">&times;</button>
-        <div class="modal-index"></div>
-        <button class="modal-prev">&#10094;</button>
-        <button class="modal-next">&#10095;</button>
       `;
 
   const instance = basicLightbox.create(modalHTML, { closable: false });
@@ -118,22 +117,82 @@ galleryContainer.addEventListener('click', (e) => {
   const prevBtn = modalElement.querySelector('.modal-prev');
   const nextBtn = modalElement.querySelector('.modal-next');
 
-  function updateModal() {
-    modalImage.src = images[currentIndex].original;
-    modalImage.alt = images[currentIndex].description;
-    captionEl.textContent = images[currentIndex].description;
-    modalIndex.textContent = `${currentIndex + 1}/${images.length}`;
+
+  // function updateModal(direction) {
+  //   const exitClass = direction === 'next' ? 'slide-out-left' : 'slide-out-right';
+  //   const enterClass = direction === 'next' ? 'slide-in-right' : 'slide-in-left';
+  
+  //   modalImage.classList.add(exitClass);
+  
+  //   setTimeout(() => {
+  //     modalImage.src = images[currentIndex].original;
+  //     modalImage.alt = images[currentIndex].description;
+  //     captionEl.textContent = images[currentIndex].description;
+  //     modalIndex.textContent = `${currentIndex + 1}/${images.length}`;
+  
+  //     modalImage.classList.remove(exitClass);
+  //     modalImage.classList.add(enterClass);
+  //   }, 500);
+  
+  //   setTimeout(() => {
+  //     modalImage.classList.remove(enterClass);
+  //   }, 1000);
+  // }
+
+  function updateModal(direction) {
+    const exitClass = direction === 'next' ? 'slide-out-left' : 'slide-out-right';
+    const enterClass = direction === 'next' ? 'slide-in-right' : 'slide-in-left';
+  
+    // Додаємо клас для виходу старого зображення
+    modalImage.classList.add(exitClass);
+  
+    setTimeout(() => {
+      // Приховуємо зображення перед зміною src
+      modalImage.style.visibility = "hidden";
+  
+      // Оновлюємо зображення після закінчення вихідної анімації
+      modalImage.src = images[currentIndex].original;
+      modalImage.alt = images[currentIndex].description;
+      captionEl.textContent = images[currentIndex].description;
+      modalIndex.textContent = `${currentIndex + 1}/${images.length}`;
+  
+      // Видаляємо клас виходу та додаємо клас входу
+      modalImage.classList.remove(exitClass);
+      modalImage.classList.add(enterClass);
+  
+      // Робимо зображення видимим після оновлення src
+      modalImage.style.visibility = "visible";
+    }, 400); // Таймер трохи менший за анімацію
+  
+    setTimeout(() => {
+      modalImage.classList.remove(enterClass);
+    }, 800); // Видаляємо клас входу після завершення анімації
   }
-  updateModal();
-  closeBtn.addEventListener('click', ()=> instance.close());
-
-  prevBtn.addEventListener('click', ()=>{
+  
+  // Оновлення обробників подій для кнопок
+  prevBtn.addEventListener('click', () => {
     currentIndex = (currentIndex - 1 + images.length) % images.length;
-    updateModal();
+    updateModal('prev');
   });
-
+  
   nextBtn.addEventListener('click', () => {
     currentIndex = (currentIndex + 1) % images.length;
-    updateModal();
+    updateModal('next');
   });
+  
+
+  closeBtn.addEventListener('click', ()=> instance.close());
+
+  
+  prevBtn.addEventListener('click', () => {
+    currentIndex = (currentIndex - 1 + images.length) % images.length;
+    updateModal('prev');
+  });
+  
+  nextBtn.addEventListener('click', () => {
+    currentIndex = (currentIndex + 1) % images.length;
+    updateModal('next');
+  });
+  
+
 });
